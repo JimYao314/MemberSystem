@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.UI.WebControls; 
 using MemberSystem.Controllers;
 using MemberSystem.Models;
 
@@ -16,9 +17,31 @@ namespace MemberSystem.Views
 
             if (!IsPostBack)
             {
+                LoadUserList();
+            }
+        }
+
+        private void LoadUserList()
+        {
+            UserManager userMgr = new UserManager();
+            gvUserList.DataSource = userMgr.GetAllUsers();
+            gvUserList.DataBind();
+        }
+
+        protected void gvUserList_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "UpdateRole")
+            {
+                int targetUserId = Convert.ToInt32(e.CommandArgument);
+
+                GridViewRow row = (GridViewRow)((Button)e.CommandSource).NamingContainer;
+                DropDownList ddl = (DropDownList)row.FindControl("ddlNewRole");
+                int newRole = Convert.ToInt32(ddl.SelectedValue);
+
                 UserManager userMgr = new UserManager();
-                gvUserList.DataSource = userMgr.GetAllUsers();
-                gvUserList.DataBind();
+                userMgr.UpdateRole(targetUserId, newRole);
+
+                Response.Redirect("Admin.aspx");
             }
         }
     }

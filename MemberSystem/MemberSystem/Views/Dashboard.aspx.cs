@@ -49,7 +49,7 @@ namespace MemberSystem.Views
         protected void btnChangePassword_Click(object sender, EventArgs e) { Response.Redirect("ChangePassword.aspx"); }
         protected void btnViewProfile_Click(object sender, EventArgs e) { Response.Redirect("Profile.aspx"); }
         protected void btnEditProfile_Click(object sender, EventArgs e) { Response.Redirect("Profile.aspx"); }
-        protected void btnUserList_Click(object sender, EventArgs e) { Response.Redirect("AdminList.aspx"); }
-        protected void btnUserEdit_Click(object sender, EventArgs e) { Response.Redirect("AdminEdit.aspx"); }
+        protected void btnUserList_Click(object sender, EventArgs e) { Response.Redirect("Admin.aspx"); }
+        protected void btnUserEdit_Click(object sender, EventArgs e) { Response.Redirect("Admin.aspx"); }
     }
 }

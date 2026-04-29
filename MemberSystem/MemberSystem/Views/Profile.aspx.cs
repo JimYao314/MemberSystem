@@ -56,7 +56,18 @@ namespace MemberSystem.Views
         
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            User loggedInUser = (User)Session["CurrentUser"];
 
+            User updatedUser = new User();
+            updatedUser.UserID = loggedInUser.UserID;
+            updatedUser.UserName = txtName.Text; 
+            updatedUser.Birthday = Convert.ToDateTime(txtBirthday.Text);
+            updatedUser.Email = txtEmail.Text;
+
+            UserManager userMgr = new UserManager();
+            int result = userMgr.UpdateUserInfo(updatedUser); 
+
+            if (result == 1) { lblMessage.Text = "成功"; }
         }
     }
 }

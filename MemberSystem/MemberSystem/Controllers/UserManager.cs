@@ -146,6 +146,25 @@ namespace MemberSystem.Controllers
             }
             return userInfo;
         }
+        public int UpdateUserInfo(User user)
+        {
+            int result = 0;
+            string connString = ConfigurationManager.ConnectionStrings["MemberDB"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                using (SqlCommand cmd = new SqlCommand("usp_UpdateUserInfo", conn))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserID", user.UserID);
+                    cmd.Parameters.AddWithValue("@UserName", user.UserName);
+                    cmd.Parameters.AddWithValue("@Birthday", user.Birthday);
+                    cmd.Parameters.AddWithValue("@Email", user.Email);
+                    conn.Open();
+                    result = Convert.ToInt32(cmd.ExecuteScalar()); 
+                }
+            }
+            return result;
+        }
         public DataTable GetAllUsers()
         {
             DataTable dt = new DataTable();
@@ -165,6 +184,21 @@ namespace MemberSystem.Controllers
                 }
             }
             return dt;
+        }
+        public void UpdateRole(int userId, int newRole)
+        {
+            string connString = ConfigurationManager.ConnectionStrings["MemberDB"].ConnectionString;
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                using (SqlCommand cmd = new SqlCommand("usp_Admin_UpdateRole", conn))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TargetUserID", userId);
+                    cmd.Parameters.AddWithValue("@NewRoleID", newRole);
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
     }
